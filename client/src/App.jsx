@@ -5,7 +5,8 @@ import MyJobs from "./pages/MyJobs";
 import MyApplications from "./pages/MyApplications";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Profile from "./pages/Profile";
+import ProtectedRoutes from "./components/ProtectedRoutes";
 import MainLayout from "./layouts/MainLayout";
 import PublicLayout from "./layouts/PublicLayout";
 
@@ -14,64 +15,21 @@ function App() {
     <Router>
       <Routes>
         {/* Public routes */}
-        <Route
-          path="/login"
-          element={
-            <PublicLayout>
-              <Login />
-            </PublicLayout>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <PublicLayout>
-              <Signup />
-            </PublicLayout>
-          }
-        />
+        <Route element={<PublicLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+        </Route>
 
         {/* Protected Routes inside layout */}
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <BrowseJobs />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/post-job"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <PostJob />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/my-jobs"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <MyJobs />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/applications"
-          element={
-            <ProtectedRoute>
-              <MainLayout>
-                <MyApplications />
-              </MainLayout>
-            </ProtectedRoute>
-          }
-        />
+        <Route element={<ProtectedRoutes />}>
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<BrowseJobs />} />
+            <Route path="/post-job" element={<PostJob />} />
+            <Route path="/my-jobs" element={<MyJobs />} />
+            <Route path="/applications" element={<MyApplications />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Route>
       </Routes>
     </Router>
   );

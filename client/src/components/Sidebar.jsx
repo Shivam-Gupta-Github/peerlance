@@ -45,6 +45,15 @@ const Sidebar = () => {
       >
         Applications
       </Link>
+      <Link
+        to="/profile"
+        role="tab"
+        className={`tab btn btn-ghost justify-start ${
+          currentPath === "/applications" ? "tab-active" : ""
+        }`}
+      >
+        Profile
+      </Link>
     </div>
   );
 };
