@@ -1,27 +1,17 @@
 import express from "express";
-import Job from "../models/Job.js";
-import authMiddleware from "../middleware/auth.js";
+import authMiddleware from "../middlewares/auth.js";
+import {
+  createJob,
+  getAllJobs,
+  getMyJobs,
+  assignJob,
+} from "../controllers/jobController.js";
 
 const router = express.Router();
 
-// Create a job (Only for logged-in users)
-router.post("/", authMiddleware, async (req, res) => {
-  try {
-    const { title, description, price, category } = req.body;
-
-    const newJob = new Job({
-      title,
-      description,
-      price,
-      category,
-      postedBy: req.user, // injected by middleware
-    });
-
-    await newJob.save();
-    res.status(201).json(newJob);
-  } catch (err) {
-    res.status(500).json({ msg: "Error posting job", error: err.message });
-  }
-});
+router.post("/", authMiddleware, createJob);
+router.get("/", getAllJobs);
+router.get("/my-jobs", authMiddleware, getMyJobs);
+router.put("/:jobId/assign", authMiddleware, assignJob);
 
 export default router;

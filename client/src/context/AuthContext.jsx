@@ -6,6 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     console.log("Login state changed:", loggedIn);
@@ -20,7 +21,11 @@ export const AuthProvider = ({ children }) => {
         const decoded = jwtDecode(token);
         const currentTime = Math.floor(Date.now() / 1000);
         if (decoded.exp > currentTime) {
-          setUser({ name: decoded.name, studentId: decoded.studentId });
+          setUser({
+            id: decoded.id,
+            name: decoded.name,
+            studentId: decoded.studentId,
+          });
           setLoggedIn(true);
         } else {
           // Token expired
@@ -32,6 +37,7 @@ export const AuthProvider = ({ children }) => {
         logout();
       }
     }
+    setAuthLoading(false);
   }, []);
 
   const login = (userData) => {
@@ -46,7 +52,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, login, logout, user }}>
+    <AuthContext.Provider
+      value={{ loggedIn, login, logout, user, authLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

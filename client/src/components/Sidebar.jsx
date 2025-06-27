@@ -49,7 +49,7 @@ const Sidebar = () => {
         to="/profile"
         role="tab"
         className={`tab btn btn-ghost justify-start ${
-          currentPath === "/applications" ? "tab-active" : ""
+          currentPath === "/profile" ? "tab-active" : ""
         }`}
       >
         Profile

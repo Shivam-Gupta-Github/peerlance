@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import MainLayout from "./layouts/MainLayout";
 import PublicLayout from "./layouts/PublicLayout";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
@@ -30,6 +31,9 @@ function App() {
             <Route path="/profile" element={<Profile />} />
           </Route>
         </Route>
+
+        {/* Catch-all route for 404 Not Found */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
