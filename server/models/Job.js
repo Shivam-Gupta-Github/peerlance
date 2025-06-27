@@ -38,6 +38,11 @@ const jobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  assignedTo: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
+  },
 });
 
 const Job = mongoose.model("Job", jobSchema);

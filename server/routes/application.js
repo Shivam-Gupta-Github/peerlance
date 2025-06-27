@@ -81,4 +81,49 @@ router.get("/job/:jobId", authMiddleware, async (req, res) => {
   }
 });
 
+router.get("/my", authMiddleware, async (req, res) => {
+  try {
+    const myApplications = await Application.find({ applicant: req.user })
+      .populate("jobId")
+      .sort({ appliedAt: -1 });
+
+    res.json(myApplications);
+  } catch (err) {
+    console.error("Error fetching applications:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// routes/applicationRoutes.js
+router.patch("/:id/status", authMiddleware, async (req, res) => {
+  const { status } = req.body;
+
+  if (!["accepted", "rejected"].includes(status)) {
+    return res.status(400).json({ message: "Invalid status" });
+  }
+
+  try {
+    const application = await Application.findById(req.params.id).populate(
+      "jobId"
+    ); // populate jobId so we can access jobId.postedBy
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found" });
+    }
+
+    // Now this works:
+    if (application.jobId.postedBy.toString() !== req.user) {
+      return res.status(403).json({ message: "Not authorized" });
+    }
+
+    application.status = status;
+    await application.save();
+
+    res.json({ message: "Status updated", application });
+  } catch (err) {
+    console.error("Failed to update application status:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 export default router;

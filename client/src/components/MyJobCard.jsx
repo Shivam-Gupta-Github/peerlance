@@ -8,6 +8,7 @@ const MyJobCard = ({ job }) => {
 
   const token = localStorage.getItem("token");
 
+  // Fetch applicants for this job
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
@@ -18,6 +19,9 @@ const MyJobCard = ({ job }) => {
           }
         );
         setApplicants(res.data);
+
+        const accepted = res.data.find((a) => a.status === "accepted");
+        if (accepted) setAssignedTo(accepted.applicant._id);
       } catch (err) {
         console.error("Error loading applicants", err);
       } finally {
@@ -28,8 +32,18 @@ const MyJobCard = ({ job }) => {
     fetchApplicants();
   }, [job._id]);
 
-  const handleAssign = async (applicantId) => {
+  const handleAssign = async (applicationId, applicantId) => {
     try {
+      // 1. Accept the application
+      await axios.patch(
+        `http://localhost:5000/api/applications/${applicationId}/status`,
+        { status: "accepted" },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      // 2. Assign the job to the user
       await axios.put(
         `http://localhost:5000/api/jobs/${job._id}/assign`,
         { assignedTo: applicantId },
@@ -37,10 +51,40 @@ const MyJobCard = ({ job }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
+      setApplicants((prev) =>
+        prev.map((a) =>
+          a._id === applicationId ? { ...a, status: "accepted" } : a
+        )
+      );
+
       setAssignedTo(applicantId);
-      alert("Job assigned successfully");
+      alert("Job assigned and application accepted");
     } catch (err) {
-      alert("Error assigning job");
+      console.error("Error assigning job", err);
+      alert("Failed to assign job");
+    }
+  };
+
+  const handleReject = async (applicationId) => {
+    try {
+      await axios.patch(
+        `http://localhost:5000/api/applications/${applicationId}/status`,
+        { status: "rejected" },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      setApplicants((prev) =>
+        prev.map((a) =>
+          a._id === applicationId ? { ...a, status: "rejected" } : a
+        )
+      );
+
+      alert("Application rejected");
+    } catch (err) {
+      console.error("Error rejecting application", err);
     }
   };
 
@@ -48,7 +92,6 @@ const MyJobCard = ({ job }) => {
     <div className="card bg-base-100 shadow p-4 mb-6">
       <h3 className="text-xl font-semibold mb-1">{job.title}</h3>
       <p className="text-sm text-gray-600 mb-2">{job.description}</p>
-
       <p className="text-sm text-gray-500 mb-4">
         Budget: ₹{job.budget} | Deadline: {job.deadline?.split("T")[0]}
       </p>
@@ -69,16 +112,28 @@ const MyJobCard = ({ job }) => {
               <span>
                 {a.applicant.name} ({a.applicant.studentId})
               </span>
-              {assignedTo === a.applicant._id ? (
-                <span className="badge badge-success">Assigned</span>
-              ) : (
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => handleAssign(a.applicant._id)}
-                >
-                  Assign
-                </button>
-              )}
+              <div className="flex gap-2">
+                {a.status === "accepted" ? (
+                  <span className="badge badge-success">Assigned</span>
+                ) : a.status === "rejected" ? (
+                  <span className="badge badge-error">Rejected</span>
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleAssign(a._id, a.applicant._id)}
+                    >
+                      Assign
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline btn-error"
+                      onClick={() => handleReject(a._id)}
+                    >
+                      Reject
+                    </button>
+                  </>
+                )}
+              </div>
             </li>
           ))}
         </ul>
