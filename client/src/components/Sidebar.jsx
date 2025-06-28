@@ -7,7 +7,7 @@ const Sidebar = () => {
   return (
     <div
       role="tablist"
-      className="tabs fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-base-200 p-4 flex flex-col gap-2 z-40"
+      className="tabs fixed top-16 left-0 h-[calc(100vh-4rem)] w-64 bg-base-200 p-4 hidden md:flex flex-col gap-2 z-40"
     >
       <Link
         to="/"

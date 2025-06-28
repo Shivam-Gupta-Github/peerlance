@@ -45,7 +45,7 @@ const PostJob = () => {
         <input
           type="text"
           placeholder="Title"
-          className="input input-bordered"
+          className="input input-bordered w-full"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -53,7 +53,7 @@ const PostJob = () => {
 
         <textarea
           placeholder="Description"
-          className="textarea textarea-bordered"
+          className="textarea textarea-bordered w-full"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
@@ -61,7 +61,7 @@ const PostJob = () => {
         <input
           type="number"
           placeholder="Budget (INR)"
-          className="input input-bordered"
+          className="input input-bordered w-full"
           value={budget}
           onChange={(e) => setBudget(e.target.value)}
           required
@@ -70,7 +70,7 @@ const PostJob = () => {
         <input
           type="date"
           placeholder="Deadline"
-          className="input input-bordered"
+          className="input input-bordered w-full"
           value={deadline}
           onChange={(e) => setDeadline(e.target.value)}
           required
@@ -79,7 +79,7 @@ const PostJob = () => {
         <input
           type="text"
           placeholder="Tags (space separated)"
-          className="input input-bordered"
+          className="input input-bordered w-full"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
         />

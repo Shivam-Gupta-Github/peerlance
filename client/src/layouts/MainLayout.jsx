@@ -8,7 +8,7 @@ const MainLayout = () => {
       <Navbar />
       <div className="flex pt-16">
         <Sidebar />
-        <main className="flex-1 ml-64 min-h-[calc(100vh-64px)] p-4 bg-base-100">
+        <main className="flex-1 md:ml-64 min-h-[calc(100vh-64px)] p-4 bg-base-100">
           <Outlet />
         </main>
       </div>
