@@ -42,4 +42,16 @@ const login = async (req, res) => {
   }
 };
 
-export { signup, login };
+const update = async (req, res) => {
+  const { name, studentId, password } = req.body;
+
+  const update = {};
+  if (name) update.name = name;
+  if (studentId) update.studentId = studentId;
+  if (password) update.password = await bcrypt.hash(password, 10);
+
+  const user = await User.findByIdAndUpdate(req.user, update, { new: true });
+  res.json({ message: "Updated successfully", user });
+};
+
+export { signup, login, update };
