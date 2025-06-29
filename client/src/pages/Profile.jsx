@@ -14,8 +14,10 @@ const Profile = () => {
     try {
       const token = localStorage.getItem("token");
 
+      const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
       const res = await axios.put(
-        "http://localhost:5000/api/auth/update",
+        `${BASE_URL}/api/auth/update`,
         { name, studentId, password },
         {
           headers: { Authorization: `Bearer ${token}` },

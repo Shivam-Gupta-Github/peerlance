@@ -15,8 +15,11 @@ const Signup = () => {
 
   const handleSignup = async (e) => {
     e.preventDefault(); // Prevent page reload
+
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/signup", {
+      const res = await axios.post(`${BASE_URL}/api/auth/signup`, {
         name,
         studentId,
         password,

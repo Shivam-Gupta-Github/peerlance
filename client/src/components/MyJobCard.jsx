@@ -8,12 +8,14 @@ const MyJobCard = ({ job }) => {
 
   const token = localStorage.getItem("token");
 
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
   // Fetch applicants for this job
   useEffect(() => {
     const fetchApplicants = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/applications/job/${job._id}`,
+          `${BASE_URL}/api/applications/job/${job._id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -36,7 +38,7 @@ const MyJobCard = ({ job }) => {
     try {
       // 1. Accept the application
       await axios.patch(
-        `http://localhost:5000/api/applications/${applicationId}/status`,
+        `${BASE_URL}/api/applications/${applicationId}/status`,
         { status: "accepted" },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -45,7 +47,7 @@ const MyJobCard = ({ job }) => {
 
       // 2. Assign the job to the user
       await axios.put(
-        `http://localhost:5000/api/jobs/${job._id}/assign`,
+        `${BASE_URL}/api/jobs/${job._id}/assign`,
         { assignedTo: applicantId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -69,7 +71,7 @@ const MyJobCard = ({ job }) => {
   const handleReject = async (applicationId) => {
     try {
       await axios.patch(
-        `http://localhost:5000/api/applications/${applicationId}/status`,
+        `${BASE_URL}/api/applications/${applicationId}/status`,
         { status: "rejected" },
         {
           headers: { Authorization: `Bearer ${token}` },

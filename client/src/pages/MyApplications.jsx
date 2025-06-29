@@ -10,17 +10,16 @@ const MyApplications = () => {
   useEffect(() => {
     if (!user?.id) return;
 
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
     const fetchApplications = async () => {
       try {
         const token = localStorage.getItem("token");
-        const res = await axios.get(
-          "http://localhost:5000/api/applications/my",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await axios.get(`${BASE_URL}/api/applications/my`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         console.log("Fetched applications:", res.data);
         setApplications(res.data);
       } catch (err) {

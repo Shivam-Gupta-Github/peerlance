@@ -16,9 +16,11 @@ const BrowseJobs = () => {
     // wait until auth finishes
     if (authLoading) return;
 
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/jobs");
+        const res = await axios.get(`${BASE_URL}/api/jobs`);
 
         const filteredJobs = user?.id
           ? res.data.filter((job) => job.postedBy?._id !== user.id)

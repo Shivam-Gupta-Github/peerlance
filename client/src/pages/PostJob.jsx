@@ -15,9 +15,11 @@ const PostJob = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
     try {
       await axios.post(
-        "http://localhost:5000/api/jobs",
+        `${BASE_URL}/api/jobs`,
         {
           title,
           description,
