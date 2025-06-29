@@ -33,7 +33,13 @@ const MyApplications = () => {
     fetchApplications();
   }, [user?.id]);
 
-  if (loading) return <div className="p-8 text-center">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[100%]">
+        <span className="loading loading-spinner loading-xl"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="p-8">

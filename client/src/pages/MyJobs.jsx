@@ -28,13 +28,19 @@ const MyJobs = () => {
     fetchMyJobs();
   }, []);
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-[100%]">
+        <span className="loading loading-spinner loading-xl"></span>
+      </div>
+    );
+  }
+
   return (
     <div className="p-8">
       <h2 className="text-2xl font-bold mb-6">My Posted Jobs</h2>
 
-      {loading ? (
-        <p>Loading...</p>
-      ) : jobs.length === 0 ? (
+      {jobs.length === 0 ? (
         <p className="text-gray-500">No jobs posted.</p>
       ) : (
         jobs.map((job) => <MyJobCard key={job._id} job={job} />)

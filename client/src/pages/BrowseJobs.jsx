@@ -52,7 +52,11 @@ const BrowseJobs = () => {
   }, [activeFilter, jobs]);
 
   if (loading || authLoading) {
-    return <div className="p-8 text-center text-lg">Loading jobs...</div>;
+    return (
+      <div className="flex items-center justify-center h-[100%]">
+        <span className="loading loading-spinner loading-xl"></span>
+      </div>
+    );
   }
 
   return (
