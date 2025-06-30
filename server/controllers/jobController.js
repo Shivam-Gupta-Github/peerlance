@@ -25,8 +25,8 @@ export const createJob = async (req, res) => {
 export const getAllJobs = async (req, res) => {
   try {
     const tagQuery = req.query.tag;
-    // const filter = { status: "open" }; // filter for open jobs
-    const filter = {}; // Adjusted to fetch all jobs, not just open ones
+    const filter = { status: "open" }; // filter for open jobs
+    // const filter = {}; // Adjusted to fetch all jobs, not just open ones
 
     if (tagQuery) {
       filter.tags = tagQuery.toLowerCase();

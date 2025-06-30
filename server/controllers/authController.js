@@ -13,8 +13,23 @@ const signup = async (req, res) => {
     const newUser = new User({ name, studentId, password: hashedPass });
     await newUser.save();
 
-    res.status(201).json({ msg: "Signup successful" });
+    // Generate JWT token
+    const token = jwt.sign(
+      { id: newUser._id, name: newUser.name, studentId: newUser.studentId },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+
+    // Send token and user info
+    res.status(201).json({
+      token,
+      name: newUser.name,
+      studentId: newUser.studentId,
+    });
   } catch (err) {
+    console.error("Signup error:", err);
     res.status(500).json({ msg: "Server error" });
   }
 };

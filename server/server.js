@@ -7,6 +7,8 @@ import authRouter from "./routes/auth.js";
 import jobRoutes from "./routes/job.js";
 import applicationRoutes from "./routes/application.js";
 
+const PORT = process.env.PORT || 5000;
+
 dotenv.config();
 
 const app = express();
