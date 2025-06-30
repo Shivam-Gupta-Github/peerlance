@@ -1,6 +1,7 @@
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import { Menu } from "lucide-react";
+import logo from "../assets/peerlance-logo.svg";
 
 const Navbar = () => {
   const { logout, user } = useAuth();
@@ -9,6 +10,7 @@ const Navbar = () => {
     <div className="navbar bg-base-300 text-base-content shadow fixed top-0 z-50">
       <div className="flex-1">
         <Link to="/" className="btn btn-ghost text-xl">
+          <img src={logo} alt="PeerLance Logo" className="h-8 mr-2" />
           PeerLance
         </Link>
       </div>

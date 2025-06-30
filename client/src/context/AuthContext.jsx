@@ -8,10 +8,10 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
 
-  useEffect(() => {
-    console.log("Login state changed:", loggedIn);
-    console.log("User data:", user);
-  }, [loggedIn]);
+  // useEffect(() => {
+  //   console.log("Login state changed:", loggedIn);
+  //   console.log("User data:", user);
+  // }, [loggedIn]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");

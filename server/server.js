@@ -7,10 +7,10 @@ import authRouter from "./routes/auth.js";
 import jobRoutes from "./routes/job.js";
 import applicationRoutes from "./routes/application.js";
 
+dotenv.config();
+
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
-
-dotenv.config();
 
 const app = express();
 app.use(express.json());
