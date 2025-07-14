@@ -3,12 +3,12 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 
 const MyApplications = () => {
-  const { user } = useAuth();
+  const { user, authLoading } = useAuth();
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user?.id) return;
+    if (authLoading) return;
 
     const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -30,7 +30,7 @@ const MyApplications = () => {
     };
 
     fetchApplications();
-  }, [user?.id]);
+  }, [authLoading, user?.id]);
 
   if (loading) {
     return (

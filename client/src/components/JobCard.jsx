@@ -1,9 +1,11 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
+import axios from "axios";
+import ApplyModal from "./ApplyModal";
 
 const JobCard = ({ job }) => {
   const [applied, setApplied] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -32,28 +34,6 @@ const JobCard = ({ job }) => {
     checkApplication();
   }, [job._id]);
 
-  const handleApply = async () => {
-    const token = localStorage.getItem("token");
-    setLoading(true);
-
-    try {
-      await axios.post(
-        `${BASE_URL}/api/applications`,
-        { jobId: job._id },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setApplied(true);
-    } catch (err) {
-      alert("Failed to apply");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleWithdraw = async () => {
     const token = localStorage.getItem("token");
     setLoading(true);
@@ -70,6 +50,10 @@ const JobCard = ({ job }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleApplyClick = () => {
+    setShowModal(true);
   };
 
   return (
@@ -105,13 +89,25 @@ const JobCard = ({ job }) => {
           </button>
         </div>
       ) : (
-        <button
-          className="btn btn-sm btn-soft btn-primary w-50"
-          onClick={handleApply}
-          disabled={loading}
-        >
-          Apply
-        </button>
+        <>
+          <button
+            className="btn btn-sm btn-soft btn-primary w-50"
+            onClick={handleApplyClick}
+            disabled={loading}
+          >
+            Apply
+          </button>
+          {showModal && (
+            <ApplyModal
+              jobId={job._id}
+              onClose={() => setShowModal(false)}
+              onSuccess={() => {
+                setApplied(true);
+                setShowModal(false);
+              }}
+            />
+          )}
+        </>
       )}
     </div>
   );

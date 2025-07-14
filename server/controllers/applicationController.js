@@ -3,13 +3,23 @@ import Application from "../models/Application.js";
 // Apply to a job
 export const applyToJob = async (req, res) => {
   const { jobId } = req.body;
+  const { comment, contact } = req.body;
+
   try {
     const existing = await Application.findOne({ jobId, applicant: req.user });
     if (existing) {
       return res.status(400).json({ msg: "You already applied to this job" });
     }
+    if (!contact) {
+      return res.status(400).json({ msg: "Contact details are required" });
+    }
 
-    const newApplication = new Application({ jobId, applicant: req.user });
+    const newApplication = new Application({
+      jobId,
+      applicant: req.user,
+      comment,
+      contact,
+    });
     await newApplication.save();
 
     res.status(201).json({ msg: "Applied successfully" });

@@ -11,6 +11,13 @@ const applicationSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  comment: {
+    type: String,
+  },
+  contact: {
+    type: String,
+    required: true,
+  },
   status: {
     type: String,
     enum: ["pending", "accepted", "rejected"],

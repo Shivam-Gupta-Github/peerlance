@@ -109,32 +109,41 @@ const MyJobCard = ({ job }) => {
           {applicants.map((a) => (
             <li
               key={a._id}
-              className="flex justify-between items-center bg-base-200 p-2 rounded"
+              className="bg-base-200 p-3 rounded flex flex-col gap-2"
             >
-              <span>
-                {a.applicant.name} ({a.applicant.studentId})
-              </span>
-              <div className="flex gap-2">
-                {a.status === "accepted" ? (
-                  <span className="badge badge-success">Assigned</span>
-                ) : a.status === "rejected" ? (
-                  <span className="badge badge-error">Rejected</span>
-                ) : (
-                  <>
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => handleAssign(a._id, a.applicant._id)}
-                    >
-                      Assign
-                    </button>
-                    <button
-                      className="btn btn-sm btn-outline btn-error"
-                      onClick={() => handleReject(a._id)}
-                    >
-                      Reject
-                    </button>
-                  </>
-                )}
+              <div className="flex justify-between items-center">
+                <span className="font-medium">
+                  {a.applicant.name} ({a.applicant.studentId})
+                </span>
+
+                <div className="flex gap-2">
+                  {a.status === "accepted" ? (
+                    <span className="badge badge-success">Assigned</span>
+                  ) : a.status === "rejected" ? (
+                    <span className="badge badge-error">Rejected</span>
+                  ) : (
+                    <>
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleAssign(a._id, a.applicant._id)}
+                      >
+                        Assign
+                      </button>
+                      <button
+                        className="btn btn-sm btn-outline btn-error"
+                        onClick={() => handleReject(a._id)}
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Contact & Comment section */}
+              <div className="ml-1 text-sm text-gray-600">
+                {a.contact && <p>📞 {a.contact}</p>}
+                {a.comment && <p>💬 {a.comment}</p>}
               </div>
             </li>
           ))}
