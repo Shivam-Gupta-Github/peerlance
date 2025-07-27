@@ -69,3 +69,22 @@ export const assignJob = async (req, res) => {
     res.status(500).json({ msg: "Failed to assign job" });
   }
 };
+
+// Delete a job
+export const deleteJob = async (req, res) => {
+  const { jobId } = req.params;
+
+  try {
+    const job = await Job.findOne({ _id: jobId, postedBy: req.user });
+
+    if (!job) {
+      return res.status(404).json({ msg: "Job not found or not authorized" });
+    }
+
+    await Job.deleteOne({ _id: jobId });
+
+    res.json({ msg: "Job deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ msg: "Failed to delete job", error: err.message });
+  }
+};

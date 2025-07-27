@@ -25,7 +25,10 @@ const PostJob = () => {
           description,
           budget: parseFloat(budget),
           deadline,
-          tags: tags.split(" ").map((tag) => tag.trim()),
+          tags: tags
+            .split(" ")
+            .map((tag) => tag.trim())
+            .filter(Boolean),
         },
         {
           headers: {

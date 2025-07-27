@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Trash2 } from "lucide-react";
 
-const MyJobCard = ({ job }) => {
+const MyJobCard = ({ job, handleDelete }) => {
   const [applicants, setApplicants] = useState([]);
   const [assignedTo, setAssignedTo] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -92,7 +93,16 @@ const MyJobCard = ({ job }) => {
 
   return (
     <div className="card bg-base-100 shadow p-4 mb-6">
-      <h3 className="text-xl font-semibold mb-1">{job.title}</h3>
+      <div className="flex justify-between items-start">
+        <h3 className="text-xl font-semibold mb-1">{job.title}</h3>
+        <button
+          onClick={() => handleDelete(job._id)}
+          title="Delete Job"
+          className="p-2 rounded-full hover:bg-red-100 transition duration-200 cursor-pointer"
+        >
+          <Trash2 className="text-red-500" />
+        </button>
+      </div>
       <p className="text-sm text-gray-600 mb-2">{job.description}</p>
       <p className="text-sm text-gray-500 mb-4">
         Budget: ₹{job.budget} | Deadline: {job.deadline?.split("T")[0]}
