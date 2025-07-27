@@ -45,6 +45,14 @@ const jobSchema = new mongoose.Schema({
   },
 });
 
+jobSchema.pre("findOneAndDelete", async function (next) {
+  const job = await this.model.findOne(this.getFilter());
+  if (job) {
+    await Application.deleteMany({ jobId: job._id });
+  }
+  next();
+});
+
 const Job = mongoose.model("Job", jobSchema);
 
 export default Job;
