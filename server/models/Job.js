@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Application from "./Application.js"; // Import Application model for pre-delete hook
 
 const jobSchema = new mongoose.Schema({
   title: {
