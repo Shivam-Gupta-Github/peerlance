@@ -21,6 +21,11 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
+// Health check route
+app.get("/", (req, res) => {
+  res.send("PeerLance API is running...");
+});
+
 app.use("/api/auth", authRouter);
 app.use("/api/jobs", jobRoutes);
 app.use("/api/applications", applicationRoutes);
